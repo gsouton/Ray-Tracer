@@ -1,44 +1,23 @@
 #include <cmath>
 #include <iostream>
+#include <memory>
 #include <ostream>
 
-#include "vec3.h"
-#include "ray.h"
+#include "rthelper.h"
 #include "color.h"
-
-// double hit_sphere(const point3& center, double radius, const ray& r){
-//     vec3 oc = r.origin() - center;
-//     double a = dot(r.direction(), r.direction());
-//     double b = 2.0 * dot(oc, r.direction());
-//     double c = dot(oc, oc) - radius*radius;
-//     double discriminant = b*b - 4 *a*c;
-//     if(discriminant < 0)
-//         return -1.0;
-//     else
-//         return (-b - std::sqrt(discriminant)) /(2.0*a);
-// }
-double hit_sphere(const point3& center, double radius, const ray& r){
-    vec3 oc = r.origin() - center;
-    double a = r.direction().length_squared();
-    double half_b = dot(oc, r.direction());
-    double c = oc.length_squared() - radius*radius;
-    double discriminant = half_b*half_b - a*c;
-    if(discriminant < 0)
-        return -1.0;
-    else
-        return (-half_b - std::sqrt(discriminant)) / a;
-}
+#include "hittable.h"
+#include "hittable_list.h"
+#include "sphere.h"
 
 
-color ray_color(const ray& r){
-    double t = hit_sphere(point3(0, 0, -1.0), 0.5, r);
-    if(t > 0.0){
-        vec3 N = unit_vector(r.at(t) - vec3(0,0,-1.0));
-        return 0.5*color(N.x()+1,N.y()+1, N.z()+1);
+color ray_color(const ray& ray, const hittable& world){
+    hit_record record;
+    if(world.hit(ray, 0, infinity, record)){
+        return 0.5 * (record.normal + color(1,1,1));
     }
-    vec3 unit_direction = unit_vector(r.direction());
-    t = 0.5*(unit_direction.y() + 1.0);
-    return (1.0-t)*color(1.0,1.0,1.0) + t * color(0.5,0.7,1.0);
+    vec3 unit_direction = unit_vector(ray.direction());
+    double t = 0.5 * (unit_direction.y() + 1.0);
+    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
 
 
@@ -48,6 +27,11 @@ int main() {
     const double aspect_ratio = 16.0 / 9.0;
     const int image_width = 400;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
+
+    // World
+    hittable_list world;
+    world.add(std::make_shared<sphere>(point3(0,0,-1), 0.5));
+    world.add(std::make_shared<sphere>(point3(0, -100.5, -1), 100));
 
     // Camera
     double viewport_height = 2.0;
@@ -69,9 +53,7 @@ int main() {
             double u = double(x) / (image_width - 1);
             double v = double(y) / (image_height -1);
             ray r(origin, lower_left_corner + u*horizontal + v*vertical - origin);
-            // color pixel_color(double(x) / (image_width - 1),
-            //                   double(y) / (image_height - 1), 0.25);
-            color pixel_color = ray_color(r);
+            color pixel_color = ray_color(r, world);
             write_color(std::cout, pixel_color);
         }
     }

@@ -8,7 +8,7 @@ $(EXEC): $(EXEC).cpp
 	$(CC) $(CFLAGS) $< -o $@
 
 run:
-	make && ./main > image.ppm
+	make && ./main > image.ppm && eog image.ppm
 
 
 .PHONY:
