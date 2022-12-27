@@ -45,7 +45,7 @@ class vec3 {
     }
 
     double length_squared() const {
-        return m_components[0] * m_components[0] + m_components[1] * m_components[1] + m_components[2];
+        return m_components[0] * m_components[0] + m_components[1] * m_components[1] + m_components[2] * m_components[2];
     }
 
   private:
