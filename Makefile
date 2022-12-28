@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall
+CFLAGS = -g -Wall -O3
 EXEC = main
 
 all: $(EXEC)

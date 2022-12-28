@@ -1,17 +1,20 @@
 #pragma once
 
 #include "hittable.h"
+#include "material.h"
 #include <cmath>
+#include <memory>
 
 class sphere: public hittable {
     public:
         sphere() {}
-        sphere(point3 center, double radius): m_center(center), m_radius(radius) {}
+        sphere(point3 center, double radius, std::shared_ptr<material> material_ptr): m_center(center), m_radius(radius), m_material_ptr(material_ptr) {}
         virtual bool hit(const ray& ray, double t_min, double t_max, hit_record& record) const override;
 
     private:
         point3 m_center;
         double m_radius;
+        std::shared_ptr<material> m_material_ptr;
 };
 
 bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& record) const{
@@ -35,5 +38,6 @@ bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& record) c
     record.p = r.at(record.t);
     vec3 outward_normal = (record.p - m_center) / m_radius;
     record.set_face_normal(r,outward_normal);
+    record.material_ptr = m_material_ptr;
     return true;
 }

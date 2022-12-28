@@ -1,8 +1,10 @@
 #pragma once
 
+#include "rthelper.h"
 #include <cmath>
 #include <iostream>
 #include <ostream>
+
 
 class vec3 {
   public:
@@ -46,6 +48,18 @@ class vec3 {
 
     double length_squared() const {
         return m_components[0] * m_components[0] + m_components[1] * m_components[1] + m_components[2] * m_components[2];
+    }
+
+    bool near_zero() const {
+        return (std::fabs(m_components[0]) < close_to_zero) && (std::fabs(m_components[1]) < close_to_zero) && (std::fabs(m_components[2]) < close_to_zero);
+    }
+
+    inline static vec3 random(){
+        return vec3(random_double(), random_double(), random_double());
+    }
+
+    inline static vec3 random(double min, double max){
+        return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
     }
 
   private:
@@ -102,4 +116,20 @@ inline vec3 cross(const vec3 &u, const vec3 &v) {
 
 inline vec3 unit_vector(vec3 v) {
     return v / v.length();
+}
+
+vec3 random_in_unit_sphere(){
+    while(true){
+        vec3 v = vec3::random(-1, 1);
+        if(v.length_squared() >= 1) continue;
+        return v;
+    }
+}
+
+vec3 random_unit_vector(){
+    return unit_vector(random_in_unit_sphere());
+}
+
+vec3 reflect(const vec3& incoming_vec, const vec3& normal){
+    return incoming_vec - 2 * dot(incoming_vec, normal)*normal;
 }
