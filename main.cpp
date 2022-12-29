@@ -30,7 +30,7 @@ int main() {
     Scene scene;
     scene.add(
         std::make_shared<Sphere>(Point3(0, -100.5, -1), 100, material_ground));
-    // scene.add(std::make_shared<Sphere>(Point3(0, 0, -1), 0.5, material_sphere));
+    scene.add(std::make_shared<Sphere>(Point3(0, 0, -1), 0.5, material_sphere));
     scene.add(std::make_shared<Sphere>(Point3(1.0, 0, -1), 0.5,
                                        material_metal_sphere));
 
@@ -41,12 +41,26 @@ int main() {
 
     Timer t;
 
-    // Render
+    std::cerr << "--- Benchmarking renders ---" << std::endl;
+    // Render Sequential
     t.start();
-    renderer.render();
+    renderer.renderSequential();
     t.stop();
+    std::cerr << "Rendering sequential: " << t.result_ms().count() << " ms\n";
 
-    std::cerr << "Rendering done in: " << t.result_ms().count() << " ms\n";
+    // Render openMP
+    t.start();
+    renderer.renderOpenMP();
+    t.stop();
+    std::cerr << "Rendering with openMP: " << t.result_ms().count() << " ms\n";
+
+    // Render for_each
+    t.start();
+    renderer.renderForEach();
+    t.stop();
+    std::cerr << "Rendering with for_each c++17: " << t.result_ms().count()
+              << " ms\n";
+
     // img.write_img();
     img.write_img(std::cout);
     return 0;

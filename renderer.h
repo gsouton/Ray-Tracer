@@ -56,7 +56,8 @@ class Renderer {
 
         std::for_each(std::execution::par, m_vertical_image_iterator.begin(),
                       m_vertical_image_iterator.end(), [this](int y) {
-                          std::for_each(std::execution::par,
+                          std::for_each(
+                              std::execution::par,
                               m_horizontal_image_iterator.begin(),
                               m_horizontal_image_iterator.end(),
                               [this, y](int x) { computeForPixel(x, y); });
