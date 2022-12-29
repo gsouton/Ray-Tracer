@@ -1,18 +1,19 @@
 #pragma once
 
+#include "rthelper.h"
 #include "vec3.h"
 
-class ray {
+class Ray {
     public:
-        ray() {}
-        ray(const point3& origin, const vec3& direction): m_origin(origin), m_direction(direction){}
-        point3 origin() const {return m_origin; }
-        vec3 direction() const { return m_direction;}
-        point3 at(double t) const {
+        Ray() {}
+        Ray(const Point3& origin, const Vec3& direction): m_origin(origin), m_direction(direction){}
+        Point3 origin() const {return m_origin; }
+        Vec3 direction() const { return m_direction;}
+        Point3 at(double t) const {
             return m_origin + t*m_direction;
         }
 
     private:
-        point3 m_origin;
-        vec3 m_direction;
+        Point3 m_origin;
+        Vec3 m_direction;
 };

@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-void write_color(std::ostream &out, color color, int sample_per_pixel){
+void write_color(std::ostream &out, Color color, int sample_per_pixel){
     double r = color.x();
     double g = color.y();
     double b = color.z();

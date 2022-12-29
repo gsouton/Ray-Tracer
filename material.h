@@ -1,42 +1,43 @@
 #pragma once
 
-#include "ray.h"
 #include "vec3.h"
+#include "ray.h"
+#include "rthelper.h"
 
 #include "hittable.h"
 
 
-class material {
+class Material {
     public:
-        virtual bool scatter(const ray& incoming_ray, const hit_record& record, color& attenuation, ray& scattered_ray) const = 0;
+        virtual bool scatter(const Ray& incoming_ray, const hit_record& record, Color& attenuation, Ray& scattered_ray) const = 0;
 };
 
-class lambertian : public material {
+class Lambertian : public Material {
     public:
-        lambertian(const color& albedo): m_albedo(albedo) {}
+        Lambertian(const Color& albedo): m_albedo(albedo) {}
 
-        virtual bool scatter(const ray& incoming_ray, const hit_record& record, color& attenuation, ray& scattered_ray) const override {
-            vec3 scatter_direction = record.normal + random_unit_vector();
+        virtual bool scatter(const Ray& incoming_ray, const hit_record& record, Color& attenuation, Ray& scattered_ray) const override {
+            Vec3 scatter_direction = record.normal + random_unit_vector();
             if(scatter_direction.near_zero()) scatter_direction = record.normal;
-            scattered_ray = ray(record.p, scatter_direction);
+            scattered_ray = Ray(record.p, scatter_direction);
             attenuation = m_albedo;
             return true;
         }
     private:
-        color m_albedo;
+        Color m_albedo;
 };
 
-class metal : public material {
+class Metal : public Material {
     public:
-        metal(const color& albedo): m_albedo(albedo){}
+        Metal(const Color& albedo): m_albedo(albedo){}
 
-        virtual bool scatter(const ray& incoming_ray, const hit_record& record, color& attenuation, ray& scattered_ray) const override {
-            vec3 reflected = reflect(unit_vector(incoming_ray.direction()), record.normal);
-            scattered_ray = ray(record.p, reflected);
+        virtual bool scatter(const Ray& incoming_ray, const hit_record& record, Color& attenuation, Ray& scattered_ray) const override {
+            Vec3 reflected = reflect(unit_vector(incoming_ray.direction()), record.normal);
+            scattered_ray = Ray(record.p, reflected);
             attenuation = m_albedo;
             return (dot(scattered_ray.direction(), record.normal) > 0);
         }
 
     private:
-        color m_albedo;
+        Color m_albedo;
 };

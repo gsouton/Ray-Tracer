@@ -2,22 +2,22 @@
 
 #include "ray.h"
 
-class material;
+class Material;
 
 struct hit_record {
-    point3 p;
-    vec3 normal;
-    std::shared_ptr<material> material_ptr;
+    Point3 p;
+    Vec3 normal;
+    std::shared_ptr<Material> material_ptr;
     double t;
     bool front_face;
 
-    inline void set_face_normal(const ray& ray, const vec3& outward_normal){
+    inline void set_face_normal(const Ray& ray, const Vec3& outward_normal){
         front_face = dot(ray.direction(), outward_normal) < 0;
         normal = front_face ? outward_normal : -outward_normal;
     }
 };
 
-class hittable {
+class Hittable {
     public:
-        virtual bool hit(const ray& ray, double t_min, double t_max, hit_record& record) const = 0;
+        virtual bool hit(const Ray& Ray, double t_min, double t_max, hit_record& record) const = 0;
 };

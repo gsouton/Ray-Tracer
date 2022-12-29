@@ -1,18 +1,21 @@
 CC = g++
-CFLAGS = -g -Wall -O3
+CFLAGS = -std=c++17 -g -Wall -O3 -fopenmp -lpthread
+INC=-Ivendors/stb
 EXEC = main
 
 all: $(EXEC)
 
 $(EXEC): $(EXEC).cpp
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $(INC) $< -o $@
 
 run:
-	make && ./main > image.ppm && eog image.ppm
+	make clean && make && ./main  && eog image.png
 
+ppm:
+	make clean && make && ./main > image.ppm && eog image.ppm
 
-.PHONY:
+PHONY:
 	clean
 
 clean:
-	rm -rf $(EXEC) image.ppm
+	rm -rf $(EXEC) *.ppm *.png *.bmp

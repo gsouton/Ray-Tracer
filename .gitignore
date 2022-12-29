@@ -33,4 +33,9 @@
 
 # Other
 *.ppm
+*.png
+*.bmp
+build/
+.cache
 main
+

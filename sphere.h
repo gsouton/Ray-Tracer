@@ -5,20 +5,20 @@
 #include <cmath>
 #include <memory>
 
-class sphere: public hittable {
+class Sphere: public Hittable {
     public:
-        sphere() {}
-        sphere(point3 center, double radius, std::shared_ptr<material> material_ptr): m_center(center), m_radius(radius), m_material_ptr(material_ptr) {}
-        virtual bool hit(const ray& ray, double t_min, double t_max, hit_record& record) const override;
+        Sphere() {}
+        Sphere(Point3 center, double radius, std::shared_ptr<Material> material_ptr): m_center(center), m_radius(radius), m_material_ptr(material_ptr) {}
+        virtual bool hit(const Ray& ray, double t_min, double t_max, hit_record& record) const override;
 
     private:
-        point3 m_center;
+        Point3 m_center;
         double m_radius;
-        std::shared_ptr<material> m_material_ptr;
+        std::shared_ptr<Material> m_material_ptr;
 };
 
-bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& record) const{
-    vec3 oc = r.origin() - m_center;
+bool Sphere::hit(const Ray& r, double t_min, double t_max, hit_record& record) const{
+    Vec3 oc = r.origin() - m_center;
     double a = r.direction().length_squared();
     double half_b = dot(oc, r.direction());
     double c = oc.length_squared() - m_radius*m_radius;
@@ -36,7 +36,7 @@ bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& record) c
 
     record.t = root;
     record.p = r.at(record.t);
-    vec3 outward_normal = (record.p - m_center) / m_radius;
+    Vec3 outward_normal = (record.p - m_center) / m_radius;
     record.set_face_normal(r,outward_normal);
     record.material_ptr = m_material_ptr;
     return true;

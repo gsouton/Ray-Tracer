@@ -1,0 +1,20 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-std=c++17",
+      "-g",
+      "-Wall",
+      "-O3",
+      "-fopenmp",
+      "-Ivendors/stb",
+      "-o",
+      "main",
+      "main.cpp"
+    ],
+    "directory": "/home/gilles/Documents/Projects/Ray-Tracer",
+    "file": "/home/gilles/Documents/Projects/Ray-Tracer/main.cpp",
+    "output": "/home/gilles/Documents/Projects/Ray-Tracer/main"
+  }
+]

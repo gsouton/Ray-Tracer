@@ -5,21 +5,21 @@
 #include <memory>
 #include <vector>
 
-class hittable_list : public hittable {
+class Hittable_list : public Hittable {
     public:
-        hittable_list() {}
-        hittable_list(std::shared_ptr<hittable> object) { add(object); }
+        Hittable_list() {}
+        Hittable_list(std::shared_ptr<Hittable> object) { add(object); }
         
-        void add(std::shared_ptr<hittable> object) { m_objects.push_back(object);}
+        void add(std::shared_ptr<Hittable> object) { m_objects.push_back(object);}
         void clear() { m_objects.clear(); }
 
-        virtual bool hit(const ray& ray, double t_min, double t_max, hit_record& record) const override;
+        virtual bool hit(const Ray& ray, double t_min, double t_max, hit_record& record) const override;
 
     private:
-        std::vector<std::shared_ptr<hittable>> m_objects;
+        std::vector<std::shared_ptr<Hittable>> m_objects;
 };
 
-bool hittable_list::hit(const ray& ray, double t_min, double t_max, hit_record& record) const {
+bool Hittable_list::hit(const Ray& ray, double t_min, double t_max, hit_record& record) const {
     bool hit_anything = false;
     hit_record temporary_record;
     double closest_so_far = t_max;
