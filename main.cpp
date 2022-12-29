@@ -18,7 +18,7 @@
 int main() {
 
     // Image
-    Image img(1024);
+    Image img(2048);
 
     // Create a scene with 2 spheres
     std::shared_ptr<Lambertian> material_ground =

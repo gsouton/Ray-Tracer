@@ -32,7 +32,6 @@
 *.app
 
 # Other
-*.ppm
 *.png
 *.bmp
 build/
