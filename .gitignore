@@ -32,8 +32,6 @@
 *.app
 
 # Other
-*.png
-*.bmp
 build/
 .cache
 main
