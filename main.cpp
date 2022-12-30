@@ -62,6 +62,7 @@ int main() {
               << " ms\n";
 
     // img.write_img();
-    img.write_img(std::cout);
+    // img.write_img(std::cout);
+    img.write_png("image.png");
     return 0;
 }

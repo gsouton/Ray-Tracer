@@ -64,6 +64,10 @@ class Vec3 {
                     random_double(min, max));
     }
 
+    static int num_component(){
+        return 3;
+    }
+
   private:
     double m_components[3];
 };
