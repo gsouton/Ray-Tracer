@@ -26,13 +26,17 @@ int main() {
     std::shared_ptr<Material> material_sphere =
         std::make_shared<Lambertian>(Color(0.7, 0.3, 0.3));
     std::shared_ptr<Material> material_metal_sphere =
-        std::make_shared<Metal>(Color(0.8, 0.8, 0.8));
+        std::make_shared<Metal>(Color(0.8, 0.8, 0.8),1.0);
+    std::shared_ptr<Material> material_metal_sphere_blue =
+        std::make_shared<Metal>(Color(0.2, 0.1, 0.8), 0.3);
     Scene scene;
     scene.add(
         std::make_shared<Sphere>(Point3(0, -100.5, -1), 100, material_ground));
     scene.add(std::make_shared<Sphere>(Point3(0, 0, -1), 0.5, material_sphere));
     scene.add(std::make_shared<Sphere>(Point3(1.0, 0, -1), 0.5,
                                        material_metal_sphere));
+    scene.add(std::make_shared<Sphere>(Point3(-1.0, 0, -1), 0.5,
+                                       material_metal_sphere_blue));
 
     // Camera
     Camera cam;
@@ -61,8 +65,6 @@ int main() {
     std::cerr << "Rendering with for_each c++17: " << t.result_ms().count()
               << " ms\n";
 
-    // img.write_img();
-    // img.write_img(std::cout);
     img.write_png("image.png");
     return 0;
 }
