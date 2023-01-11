@@ -8,15 +8,15 @@ It was implemented following the design implementation of [Ray Tracing in One We
 
 ## Use
 ### CMake
-    `mkdir build`
-    `cd build`
-    `cmake ..`
-    `make -j`
-    `./main`
+    mkdir build
+    cd build
+    cmake ..
+    make -j
+    ./main
 
 ### Makefile
-    `make`
-    `./main`
+    make
+    ./main
 
 Result should be written to the file `image.png`
 
